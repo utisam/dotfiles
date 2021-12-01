@@ -1,0 +1,13 @@
+%load_ext autoreload
+%autoreload 2
+
+import sys
+import os
+import re
+
+import contextlib
+sup_no_module = contextlib.suppress(ModuleNotFoundError)
+with sup_no_module: import numpy as np
+with sup_no_module: import pandas as pd
+del contextlib
+del sup_no_module
