@@ -36,8 +36,10 @@ CUSTOM_PATH=(
 	"/usr/local/opt/coreutils/libexec/gnubin"
 	"/usr/local/opt/gettext/bin"
 	"/usr/local/opt/gnu-sed/libexec/gnubin"
+	"/usr/local/opt/grep/libexec/gnubin"
 	"/usr/local/opt/llvm/bin"
 	"/usr/local/opt/make/libexec/gnubin"
+	"/usr/local/opt/gnu-tar/libexec/gnubin"
 	# nRF52 tools
 	"/opt/SEGGER/JLink"
 	"/opt/mergehex"
