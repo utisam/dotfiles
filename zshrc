@@ -225,7 +225,7 @@ alias lsa=la
 ##########
 
 # 上へ移動する
-# naoya さんより拝借
+# naoya さんのブログからコピペ
 function cdup() {
 	cd ..
 	zle reset-prompt
@@ -236,7 +236,7 @@ function cdback() {
 	zle reset-prompt
 }
 # 省略 ls
-# yuyuchu3333 さんより拝借したものを改変
+# yuyuchu3333 さんのブログからコピペしたものを改変
 function ls_abbrev() {
 	# COLUMNS=$COLUMNS: Evaluate width of console every time
 	# -C: Force multi-column output
@@ -270,7 +270,7 @@ function in_git() {
 	[[ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = "true" ]]
 }
 # ls & git status
-# yuyuchu3333 さんより拝借
+# yuyuchu3333 さんのブログからコピペ
 # bindkey と合わせてバッファが空のときの動作を設定
 function do_enter() {
 	if [[ -z "$BUFFER" ]]; then
@@ -366,11 +366,11 @@ done
 autoload -U compinit
 compinit -u
 zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history _ignored
-# 補完の時に大文字小文字を区別しない(但し、大文字を打った場合は小文字に変換しない)
+# 補完の時に大文字小文字を区別しない（ただし大文字を打った場合は小文字に変換しない）
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 # 補完にキャッシュを使う
 zstyle ':completion:*' use-cache true
-# 印キー補完選択
+# 矢印キーで補完選択
 zstyle ':completion:*:default' menu select
 # 補完関数をできるだけ過剰に
 zstyle ':completion:*' verbose yes
@@ -389,7 +389,7 @@ zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-dir
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 # kill の候補にも色付き表示
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
-# sudo時にはsudo用のパスも使う。
+# sudo時にはsudo用のパスも使う
 zstyle ':completion:sudo:*' environ PATH="$SUDO_PATH:$PATH"
 # /etc/hosts と known_hosts を hostname の補完に使う
 [[ -r ~/.ssh/known_hosts ]] && _ssh_hosts=(${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*}) || _ssh_hosts=()
@@ -401,20 +401,20 @@ hosts=(
 	localhost
 )
 zstyle ':completion:*:hosts' hosts $hosts
-# man はセクションごとに補完する
+# man はセクションごとに補完
 zstyle ':completion:*:manuals' separate-sections true
 # 先方予測・学習機能
 #autoload predict-on
 #predict-on
 # タブキー連打で補完候補を順に表示
 setopt auto_menu
-# '='以降でも補完できるようにする( --prefix=/usr 等の場合)
+# '='以降でも補完（--prefix=/usr など）
 setopt magic_equal_subst
-# 補完される前にオリジナルのコマンドまで展開してチェックする]
+# 補完される前にオリジナルのコマンドまで展開してチェックする
 setopt complete_aliases
-# カーソル位置で補完する。
+# カーソル位置で補完
 setopt complete_in_word
-# 補完時にヒストリを自動的に展開する。
+# 補完時にヒストリを自動的に展開
 setopt hist_expand
 # カッコの対応などを自動的に補完
 setopt auto_param_keys
@@ -422,9 +422,9 @@ setopt auto_param_keys
 setopt list_types
 # 出力の文字列末尾に改行コードが無い場合でも表示
 unsetopt promptcr
-# 補完候補が複数ある時に、一覧表示する
+# 補完候補が複数ある時に一覧表示
 setopt auto_list
-# 補完候補が複数ある時、一覧表示 (auto_list) せず、すぐに最初の候補を補完する
+# 補完候補が複数ある時にすぐに最初の候補を補完する
 setopt menu_complete
 #コマンド修正提示
 #setopt correct		#通常
