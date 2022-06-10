@@ -44,6 +44,8 @@ CUSTOM_PATH=(
 	"/opt/SEGGER/JLink"
 	"/opt/mergehex"
 	"/opt/nrfjprog"
+	# Dart
+	"$HOME/.pub-cache/bin"
 	# Go
 	"$GOPATH/bin"
 	# Rust
