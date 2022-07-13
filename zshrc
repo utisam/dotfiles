@@ -329,8 +329,12 @@ bindkey '^[[1;5D' backward-word
 # M-left: popd
 zle -N cdup
 zle -N cdback
-if [[ ${UNAME} = "Darwin" ]]; then
-	bindkey '^[^[[A' cdup
+if [[ "${UNAME}" = "Darwin" ]]; then
+	if [[ "${TERM_PROGRAM}" = "vscode" ]]; then
+		bindkey '^[[1;3A' cdup
+	else
+		bindkey '^[^[[A' cdup
+	fi
 	bindkey '^[b' cdback
 elif [[ ${UNAME} = "Linux" ]]; then
 	bindkey '^[[1;3A' cdup
