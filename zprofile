@@ -40,6 +40,15 @@ CUSTOM_PATH=(
 	"/usr/local/opt/llvm/bin"
 	"/usr/local/opt/make/libexec/gnubin"
 	"/usr/local/opt/gnu-tar/libexec/gnubin"
+	# Homebrew opts (ARM)
+	"/opt/homebrew/bin"
+	"/opt/homebrew/opt/coreutils/libexec/gnubin"
+	"/opt/homebrew/opt/gettext/bin"
+	"/opt/homebrew/opt/gnu-sed/libexec/gnubin"
+	"/opt/homebrew/opt/grep/libexec/gnubin"
+	"/opt/homebrew/opt/llvm/bin"
+	"/opt/homebrew/opt/make/libexec/gnubin"
+	"/opt/homebrew/opt/gnu-tar/libexec/gnubin"
 	# nRF52 tools
 	"/opt/SEGGER/JLink"
 	"/opt/mergehex"
