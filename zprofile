@@ -31,24 +31,24 @@ export CORRECT_IGNORE_FILE='.*'
 ## PATH ##
 ##########
 
+local UNAME=$(uname)
+local ARCH=$(uname -m)
+
+if [[ "${UNAME}" = "Darwin" && "${ARCH}" = "x86_64" ]]; then
+	export BREW_HOME="/usr/local"
+else
+	export BREW_HOME="/opt/homebrew"
+fi
+
 CUSTOM_PATH=(
 	# Homebrew opts
-	"/usr/local/opt/coreutils/libexec/gnubin"
-	"/usr/local/opt/gettext/bin"
-	"/usr/local/opt/gnu-sed/libexec/gnubin"
-	"/usr/local/opt/grep/libexec/gnubin"
-	"/usr/local/opt/llvm/bin"
-	"/usr/local/opt/make/libexec/gnubin"
-	"/usr/local/opt/gnu-tar/libexec/gnubin"
-	# Homebrew opts (ARM)
-	"/opt/homebrew/bin"
-	"/opt/homebrew/opt/coreutils/libexec/gnubin"
-	"/opt/homebrew/opt/gettext/bin"
-	"/opt/homebrew/opt/gnu-sed/libexec/gnubin"
-	"/opt/homebrew/opt/grep/libexec/gnubin"
-	"/opt/homebrew/opt/llvm/bin"
-	"/opt/homebrew/opt/make/libexec/gnubin"
-	"/opt/homebrew/opt/gnu-tar/libexec/gnubin"
+	"${BREW_HOME}/opt/coreutils/libexec/gnubin"
+	"${BREW_HOME}/opt/gettext/bin"
+	"${BREW_HOME}/opt/gnu-sed/libexec/gnubin"
+	"${BREW_HOME}/opt/grep/libexec/gnubin"
+	"${BREW_HOME}/opt/llvm/bin"
+	"${BREW_HOME}/opt/make/libexec/gnubin"
+	"${BREW_HOME}/opt/gnu-tar/libexec/gnubin"
 	# nRF52 tools
 	"/opt/SEGGER/JLink"
 	"/opt/mergehex"
@@ -65,6 +65,9 @@ CUSTOM_PATH=(
 	"$HOME/.local/bin"
 	"$HOME/bin"
 )
+if [[ "${UNAME}" = "Darwin" && "${ARCH}" = "arm64" ]]; then
+	CUSTOM_PATH+="${BREW_HOME}/bin"
+fi
 type npm >/dev/null 2>&1 && CUSTOM_PATH+=$(npm bin -g 2>/dev/null)
 
 for p in $CUSTOM_PATH; do
