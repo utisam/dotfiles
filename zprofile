@@ -31,28 +31,18 @@ export CORRECT_IGNORE_FILE='.*'
 ## PATH ##
 ##########
 
-local UNAME=$(uname)
-local ARCH=$(uname -m)
-
-if [[ "${UNAME}" = "Darwin" && "${ARCH}" = "x86_64" ]]; then
-	export BREW_HOME="/usr/local"
-else
-	export BREW_HOME="/opt/homebrew"
-fi
+type brew > /dev/null 2>&1 && eval "$(brew shellenv)"
 
 CUSTOM_PATH=(
 	# Homebrew opts
-	"${BREW_HOME}/opt/coreutils/libexec/gnubin"
-	"${BREW_HOME}/opt/gettext/bin"
-	"${BREW_HOME}/opt/gnu-sed/libexec/gnubin"
-	"${BREW_HOME}/opt/grep/libexec/gnubin"
-	"${BREW_HOME}/opt/llvm/bin"
-	"${BREW_HOME}/opt/make/libexec/gnubin"
-	"${BREW_HOME}/opt/gnu-tar/libexec/gnubin"
-	# nRF52 tools
-	"/opt/SEGGER/JLink"
-	"/opt/mergehex"
-	"/opt/nrfjprog"
+	"${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin"
+	"${HOMEBREW_PREFIX}/opt/gettext/bin"
+	"${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin"
+	"${HOMEBREW_PREFIX}/opt/gnu-tar/libexec/gnubin"
+	"${HOMEBREW_PREFIX}/opt/grep/libexec/gnubin"
+	"${HOMEBREW_PREFIX}/opt/gzip/bin"
+	"${HOMEBREW_PREFIX}/opt/llvm/bin"
+	"${HOMEBREW_PREFIX}/opt/make/libexec/gnubin"
 	# Dart
 	"$HOME/.pub-cache/bin"
 	# Go
@@ -61,14 +51,16 @@ CUSTOM_PATH=(
 	"$HOME/.cargo/bin"
 	# Python
 	"$HOME/.poetry/bin"
+	# Android
+	"$HOME/Library/Android/sdk/platform-tools"
+	# Nordic
+	"$HOME/.nrfutil/bin"
 	# Home
 	"$HOME/.local/bin"
 	"$HOME/bin"
 )
-if [[ "${UNAME}" = "Darwin" && "${ARCH}" = "arm64" ]]; then
-	CUSTOM_PATH+="${BREW_HOME}/bin"
-fi
-type npm >/dev/null 2>&1 && CUSTOM_PATH+=$(npm bin -g 2>/dev/null)
+# npm bin が特殊なディレクトリになっている場合は必要
+# type npm >/dev/null 2>&1 && CUSTOM_PATH+=$(npm bin -g 2>/dev/null)
 
 for p in $CUSTOM_PATH; do
     [[ -d $p ]] && PATH="$p:$PATH"
