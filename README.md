@@ -31,6 +31,20 @@ ln -s $PWD/zprofile ~/.zprofile
 マシン固有の環境変数は Linux なら `/etc/profile` もしくは `/etc/profile.d/*` を利用します。
 Mac の場合は `/Library/LaunchAgents/*.plist` を launchctl load でロードするようにします。
 
+## gitconfig
+
+```ini
+[user]
+	email = youremail@example.com
+	name = Your Name
+[include]
+	path = workspace/dotfiles/gitconfig
+```
+
+`include` を利用して取り込みます。
+
+Mac の場合は `diff-highlight` のセットアップが必要です。
+
 ## vimrc
 
 ```sh
