@@ -31,7 +31,8 @@ export CORRECT_IGNORE_FILE='.*'
 ## PATH ##
 ##########
 
-type brew > /dev/null 2>&1 && eval "$(brew shellenv)"
+[[ -x "/usr/local/bin/brew" ]] && eval "$(/usr/local/bin/brew shellenv)"
+[[ -x "/opt/homebrew/bin/brew" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
 
 CUSTOM_PATH=(
 	# Homebrew opts
