@@ -38,7 +38,7 @@ Mac の場合は `/Library/LaunchAgents/*.plist` を launchctl load でロード
 	email = youremail@example.com
 	name = Your Name
 [include]
-	path = workspace/dotfiles/gitconfig
+	path = path/to/dotfiles/gitconfig
 ```
 
 `include` を利用して取り込みます。
@@ -58,4 +58,10 @@ ln -s $PWD/vimrc ~/.vimrc
 ```sh
 ln -s $PWD/ipython_config.py ~/.ipython/profile_default/ipython_config.py
 ln -s $PWD/ipython_startup.ipy ~/.ipython/profile_default/startup/00-init.ipy
+```
+
+## SQLite
+
+```sh
+ln -s $PWD/sqliterc ~/.sqliterc
 ```
