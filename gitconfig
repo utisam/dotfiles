@@ -1,11 +1,22 @@
+[init]
+	defaultBranch = main
+[fetch]
+	# リモートで削除されたブランチはローカルも削除
+	prune = true
+[push]
+	# fetch した commit がローカルに取り込まれた場合のみ force push 可
+	useForceIfIncludes = true
+[pull]
+	# fast-forward のみ許可
+	ff = only
 [pager]
 	# macOS の場合は brew の git に含まれている diff-highlight に PATH を通す必要がある。
 	# ln -s $(brew --prefix)/opt/git/share/git-core/contrib/diff-highlight/diff-highlight /usr/local/bin/
 	log = diff-highlight | less
 	show = diff-highlight | less
 	diff = diff-highlight | less
-[push]
-	# fetch した commit がローカルに取り込まれた場合のみ force push 可
-	useForceIfIncludes = true
-[init]
-	defaultBranch = main
+[tag]
+	sort = -version:refname
+[alias]
+	history = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+
