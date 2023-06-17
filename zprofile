@@ -46,6 +46,8 @@ CUSTOM_PATH=(
 	"${HOMEBREW_PREFIX}/opt/make/libexec/gnubin"
 	# Dart
 	"$HOME/.pub-cache/bin"
+	# Flutter
+	"/opt/flutter/bin"
 	# Go
 	"$GOPATH/bin"
 	# Rust
