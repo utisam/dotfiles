@@ -142,7 +142,7 @@ set formatoptions=tcqj
 " 新しい行を作ったときに高度な自動インデントを行う
 set smartindent
 " タブをスペースに置き換える
-set expandtab 
+" set expandtab
 " タブ幅の設定
 set tabstop=4
 set shiftwidth=4
