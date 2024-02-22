@@ -220,6 +220,10 @@ alias l="ls"
 alias ks="echo '誰がカスじゃボケ'"
 alias lsa=la
 
+if type flutter 2>&1 > /dev/null ; then
+	alias flutter="flutter --no-version-check"
+fi
+
 ##########
 ## 関数 ##
 ##########
