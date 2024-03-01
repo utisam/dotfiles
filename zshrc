@@ -377,7 +377,7 @@ bindkey '^m' do_enter
 ################
 
 # 補完関数用フォルダ
-for D in "/usr/share/zsh/vendor-completions" "/usr/local/share/zsh-completions" "$HOME/.compfunc"; do
+for D in "/usr/share/zsh/vendor-completions" "/usr/local/share/zsh-completions" "/opt/homebrew/share/zsh/site-functions" "$HOME/.compfunc"; do
 	fpath=($D $fpath)
 done
 
