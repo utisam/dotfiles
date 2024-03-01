@@ -170,8 +170,13 @@ WORDCHARS='*_-.[]~;!#$%^(){}<>'
 ###########
 
 # ls
-# ディレクトリには/, 色つき
-alias ls="ls -FX --group-directories-first --color=auto"
+if [[ -n "$LS_COLORS" ]]; then
+	# 種類別で記号を付ける
+	alias ls="ls -F"
+else
+	# 色も付ける
+	alias ls="ls -FX --group-directories-first --color=auto"
+fi
 # 隠しファイルも
 alias la="ls -a"
 # 詳細付き, ファイルサイズに接頭語
@@ -179,7 +184,13 @@ alias ll="ls -lh"
 # 全部詳細
 alias lla="ls -lha"
 # tree
-alias tree="tree -C"
+if [[ -n "$LS_COLORS" ]]; then
+	# 種類別で記号を付ける
+	alias tree="tree -F"
+else
+	# 色も付ける
+	alias tree="tree -CF"
+fi
 # sl
 alias -g sl="echo you are an idiot!"
 alias -g SL="echo YOU ARE AN IDIOT!"
@@ -383,8 +394,11 @@ zstyle ':completion:*:default' menu select
 # 補完関数をできるだけ過剰に
 zstyle ':completion:*' verbose yes
 # 補完候補にもlsと同じ色付き表示
-eval $(dircolors) #色の設定を読み込み
-zstyle ':completion:*:default' list-colors ${LS_COLORS}
+if type dircolors > /dev/null ; then
+	# 色の設定を読み込み
+	eval $(dircolors)
+	zstyle ':completion:*:default' list-colors ${LS_COLORS}
+fi
 # 表示フォーマット
 zstyle ':completion:*:descriptions' format '%B%d%b'
 zstyle ':completion:*:messages' format '%d'
