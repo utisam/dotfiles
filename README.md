@@ -44,6 +44,12 @@ Mac の場合は `/Library/LaunchAgents/*.plist` を launchctl load でロード
 
 Mac の場合は `diff-highlight` のセットアップが必要です。
 
+## gitignore
+
+```sh
+ln -s $PWD/gitignore ~/.config/git/ignore
+```
+
 ## vimrc
 
 ```sh
