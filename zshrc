@@ -104,6 +104,11 @@ export LD_LIBRARY_PATH=${HOME}/local/lib:${LD_LIBRARY_PATH}
 ### 非端末プロセスならここで終了 ###
 [ $#PROMPT -eq 0 -o $#TERM -eq 0 ] && return
 
+if type dircolors > /dev/null ; then
+	# 色の設定を読み込んで LS_COLORS を定義
+	eval $(dircolors)
+fi
+
 ################
 ## プロンプト ##
 ################
@@ -170,7 +175,7 @@ WORDCHARS='*_-.[]~;!#$%^(){}<>'
 ###########
 
 # ls
-if [[ -n "$LS_COLORS" ]]; then
+if [[ -z "$LS_COLORS" ]]; then
 	# 種類別で記号を付ける
 	alias ls="ls -F"
 else
@@ -184,7 +189,7 @@ alias ll="ls -lh"
 # 全部詳細
 alias lla="ls -lha"
 # tree
-if [[ -n "$LS_COLORS" ]]; then
+if [[ -z "$LS_COLORS" ]]; then
 	# 種類別で記号を付ける
 	alias tree="tree -F"
 else
@@ -394,9 +399,7 @@ zstyle ':completion:*:default' menu select
 # 補完関数をできるだけ過剰に
 zstyle ':completion:*' verbose yes
 # 補完候補にもlsと同じ色付き表示
-if type dircolors > /dev/null ; then
-	# 色の設定を読み込み
-	eval $(dircolors)
+if [[ -z "$LS_COLORS" ]]; then
 	zstyle ':completion:*:default' list-colors ${LS_COLORS}
 fi
 # 表示フォーマット
