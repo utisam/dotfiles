@@ -307,28 +307,6 @@ function do_enter() {
 		zle accept-line
 	fi
 }
-# git の alias では変えられない既存のコマンドの動作を変更す
-function wrapped_git() {
-	# switch に強制する
-	#if [[ "$1" = "checkout" ]]; then
-	#	echo -e "\033[1;41mUse switch or restore!\033[00m"
-	# push のみなのに track してなかったら set-upstream をサジェストする
-	if [[ "$*" = "push" ]] && in_git && ! (\git rev-parse --abbrev-ref @{upstream} >/dev/null 2>&1); then
-		suggest="push -u origin $(\git rev-parse --abbrev-ref HEAD)"
-		ask_ynae "git $suggest"
-		exit_code=$?
-		echo
-		case $exit_code in
-		"0" ) \git ${=suggest} ;;
-		"1" ) \git $@ ;;
-		"2" ) return 130 ;;
-		"3" ) print -z "git $@" ;;
-		esac
-	else
-		\git $@
-	fi
-}
-alias git=wrapped_git
 
 ##################
 ## キーバインド ##
