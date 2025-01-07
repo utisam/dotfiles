@@ -131,7 +131,7 @@ local PURPLE=$'%{\e[1;35m%}'
 #local WHITE=$'%{\e[1;37m%}'
 local DEFAULT=$'%{\e[1;m%}'
 # 通常
-PROMPT=$DEFAULT"%n@%M:"$BLUE"%c"$DEFAULT"$ "
+PROMPT=$DEFAULT"%n@%M:"$BLUE"%c%f"$DEFAULT"$ "
 # 複数行
 PROMPT2="%_$ "
 # サジェスト
@@ -350,10 +350,10 @@ bindkey '^[[1;5D' backward-word
 zle -N cdup
 zle -N cdback
 if [[ "${UNAME}" = "Darwin" ]]; then
-	if [[ "${TERM_PROGRAM}" = "vscode" ]]; then
-		bindkey '^[[1;3A' cdup
-	else
+	if [[ "${TERM_PROGRAM}" = "Apple_Terminal" ]]; then
 		bindkey '^[^[[A' cdup
+	else
+		bindkey '^[[1;3A' cdup
 	fi
 	bindkey '^[b' cdback
 elif [[ ${UNAME} = "Linux" ]]; then
