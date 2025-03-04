@@ -48,6 +48,7 @@ CUSTOM_PATH=(
 	"$HOME/.pub-cache/bin"
 	# Flutter
 	"/opt/flutter/bin"
+	"$HOME/fvm/default/bin"
 	# Go
 	"$GOPATH/bin"
 	# Rust
