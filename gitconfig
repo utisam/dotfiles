@@ -3,13 +3,21 @@
 	delete-merged-branches = "!git branch --merged | grep -E -v '(^\\*|master|main|dev|staging|stg|release)' | xargs git branch -d"
 [branch]
 	sort = -committerdate
+[column]
+	ui = auto
+[commit]
+	verbose = true
 [diff]
+	algorithm = histogram
 	colorMoved = default
+	renames = copy
 	submodule = log
 [fetch]
-	# リモートで削除されたブランチはローカルも削除
+	all = true
 	prune = true
-	prunetags = true
+	pruneTags = true
+[help]
+	autocorrect = prompt
 [init]
 	defaultBranch = main
 [log]
@@ -27,11 +35,12 @@
 	# fast-forward のみ許可
 	ff = only
 [rebase]
-	# rebase 時に現在の変更を stash する
-	autostash = true
+	autoSquash = true
+	autoStash = true
+	updateRefs = true
 [rerere]
-	# コンフリクトの解消を記憶して再利用する
 	enabled = true
+	autoupdate = true
 [status]
 	submoduleSummary = true
 [submodule]
