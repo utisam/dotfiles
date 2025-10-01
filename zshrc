@@ -352,6 +352,8 @@ zle -N cdback
 if [[ "${UNAME}" = "Darwin" ]]; then
 	if [[ "${TERM_PROGRAM}" = "Apple_Terminal" ]]; then
 		bindkey '^[^[[A' cdup
+	elif [[ "${TERM_PROGRAM}" = "vscode" ]]; then
+		bindkey '^[[1;5A' cdup
 	else
 		bindkey '^[[1;3A' cdup
 	fi
