@@ -1,6 +1,5 @@
 [alias]
 	history = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	delete-merged-branches = "!git branch --merged | grep -E -v '(^\\*|master|main|dev|staging|stg|release)' | xargs git branch -d"
 [branch]
 	sort = -committerdate
 [column]

@@ -1,0 +1,143 @@
+#!/bin/zsh
+
+set -euo pipefail
+
+readonly DEFAULT_PROTECT_KEYWORDS=(master main dev staging stg release)
+readonly COLOR_YELLOW='\033[1;33m'
+readonly COLOR_GREEN='\033[1;32m'
+readonly COLOR_RED='\033[1;31m'
+readonly COLOR_RESET='\033[0m'
+
+usage() {
+    cat <<EOF
+Usage: git delete-merged-branches [OPTIONS]
+
+Delete local branches that have been merged into the current branch.
+By default, branches containing protected keywords are excluded from deletion.
+
+Options:
+  --no-protect           Skip keyword-based branch protection
+  --protect <keyword>    Add a keyword to the protection list (repeatable;
+                         replaces default list when specified)
+  --dry-run              Preview branches without deleting
+  -h, --help             Show this help message
+
+Default protected keywords: ${DEFAULT_PROTECT_KEYWORDS[*]}
+
+Examples:
+  git delete-merged-branches
+  git delete-merged-branches --dry-run
+  git delete-merged-branches --no-protect
+  git delete-merged-branches --protect master --protect develop
+EOF
+}
+
+# Parse arguments
+typeset -a protect_keywords=()
+local no_protect=false
+local dry_run=false
+local custom_protect=false
+
+while (( $# )); do
+    case "$1" in
+        --no-protect)
+            no_protect=true
+            shift
+            ;;
+        --protect)
+            if [[ -z "${2:-}" ]]; then
+                echo "${COLOR_RED}error${COLOR_RESET}: --protect requires a keyword argument" >&2
+                exit 1
+            fi
+            protect_keywords+=("$2")
+            custom_protect=true
+            shift 2
+            ;;
+        --dry-run)
+            dry_run=true
+            shift
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            echo "${COLOR_RED}error${COLOR_RESET}: unknown option: $1" >&2
+            usage >&2
+            exit 1
+            ;;
+    esac
+done
+
+if [[ "$no_protect" == false && "$custom_protect" == false ]]; then
+    protect_keywords=("${DEFAULT_PROTECT_KEYWORDS[@]}")
+fi
+
+# Build grep pattern from keywords
+local protect_pattern=""
+if [[ "$no_protect" == false && ${#protect_keywords[@]} -gt 0 ]]; then
+    protect_pattern=$(IFS='|'; echo "${protect_keywords[*]}")
+fi
+
+# Get merged branches (exclude current branch marked with *)
+local -a merged_branches=()
+local -a protected_branches=()
+local -a deletable_branches=()
+
+while IFS= read -r branch; do
+    # strip leading whitespace and the current-branch marker (*)
+    branch="${branch#"${branch%%[! *]*}"}"
+    [[ -z "$branch" ]] && continue
+    merged_branches+=("$branch")
+done < <(git branch --merged 2>/dev/null | grep -v '^\*')
+
+if [[ ${#merged_branches[@]} -eq 0 ]]; then
+    echo "No merged branches found." >&2
+    exit 0
+fi
+
+# Classify branches
+for branch in "${merged_branches[@]}"; do
+    if [[ -n "$protect_pattern" ]] && echo "$branch" | grep -qE "$protect_pattern"; then
+        local matched_keyword=""
+        for keyword in "${protect_keywords[@]}"; do
+            if echo "$branch" | grep -qE "$keyword"; then
+                matched_keyword="$keyword"
+                break
+            fi
+        done
+        protected_branches+=("${branch}|${matched_keyword}")
+    else
+        deletable_branches+=("$branch")
+    fi
+done
+
+# Show protected branches
+if [[ ${#protected_branches[@]} -gt 0 ]]; then
+    echo "${COLOR_YELLOW}⚠️  Protected branches:${COLOR_RESET}" >&2
+    for entry in "${protected_branches[@]}"; do
+        local name="${entry%%|*}"
+        local keyword="${entry##*|}"
+        echo "    - ${name} ${COLOR_YELLOW}(contains: ${keyword})${COLOR_RESET}" >&2
+    done
+    echo "" >&2
+fi
+
+# Delete or preview deletable branches
+if [[ ${#deletable_branches[@]} -eq 0 ]]; then
+    echo "No branches to delete." >&2
+    exit 0
+fi
+
+if [[ "$dry_run" == true ]]; then
+    echo "${COLOR_GREEN}Branches that would be deleted:${COLOR_RESET}" >&2
+    for branch in "${deletable_branches[@]}"; do
+        echo "    - ${branch}" >&2
+    done
+else
+    echo "${COLOR_GREEN}Deleting merged branches:${COLOR_RESET}" >&2
+    for branch in "${deletable_branches[@]}"; do
+        echo "    - ${branch}" >&2
+        git branch -d "$branch"
+    done
+fi
