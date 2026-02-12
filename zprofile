@@ -44,6 +44,7 @@ CUSTOM_PATH=(
 	"${HOMEBREW_PREFIX}/opt/gzip/bin"
 	"${HOMEBREW_PREFIX}/opt/llvm/bin"
 	"${HOMEBREW_PREFIX}/opt/make/libexec/gnubin"
+	"${HOMEBREW_PREFIX}/opt/postgresql@15/bin"
 	# Dart
 	"$HOME/.pub-cache/bin"
 	# Flutter
@@ -57,6 +58,8 @@ CUSTOM_PATH=(
 	"$HOME/.poetry/bin"
 	# Android
 	"$HOME/Library/Android/sdk/platform-tools"
+	# Node
+	"$HOME/Library/pnpm"
 	# Nordic
 	"$HOME/.nrfutil/bin"
 	# Home
