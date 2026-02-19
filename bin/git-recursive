@@ -1,20 +1,73 @@
 #!/bin/zsh
 
-SILENT=0
-if [[ $1 = "-s" ]]; then
-    shift
-    SILENT=1
+set -euo pipefail
+
+readonly COLOR_RED='\033[1;31m'
+readonly COLOR_RESET='\033[0m'
+
+usage() {
+    cat <<EOF
+Usage: git recursive [OPTIONS] <git-subcommand> [args...]
+       git recursive [OPTIONS] ! <command> [args...]
+
+Run a git command (or any arbitrary command with !) recursively in all git
+repositories found under the current directory.
+Directories named 'vendor' and 'node_modules' are excluded from the search.
+
+Options:
+  -s, --silent    Suppress the repository path header printed before each run
+  !               Run an arbitrary shell command instead of a git command
+  -h, --help      Show this help message
+
+Examples:
+  git recursive status
+  git recursive -s fetch --all
+  git recursive ! make build
+EOF
+}
+
+local silent=false
+local exec_mode=false
+
+while (( $# )); do
+    case "$1" in
+        -s|--silent)
+            silent=true
+            shift
+            ;;
+        '!')
+            exec_mode=true
+            shift
+            break
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        --)
+            shift
+            break
+            ;;
+        -*)
+            echo "${COLOR_RED}error${COLOR_RESET}: unknown option: $1" >&2
+            usage >&2
+            exit 1
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+local -a command=()
+if [[ "$exec_mode" == true ]]; then
+    command=("$@")
+else
+    command=(git --no-pager "$@")
 fi
 
-declare -a COMMAND=(git --no-pager $argv)
-if [[ $1 = "!" ]]; then
-    shift
-    COMMAND=($argv)
-fi
-
-for D in $(find -L $PWD \( -name vendor -o -name node_modules \) -prune -o -type d -name .git -print -prune)
-do
-    cd $(dirname $D)
-    [[ $SILENT = 0 ]] && echo -e "\e[37;44;1m${PWD/${HOME}/~}\e[m"
-    $COMMAND[*]
+for D in $(find -L $PWD \( -name vendor -o -name node_modules \) -prune -o -type d -name .git -print -prune); do
+    cd "$(dirname "$D")"
+    [[ "$silent" == false ]] && echo -e "\e[37;44;1m${PWD/${HOME}/~}\e[m"
+    "${command[@]}"
 done
