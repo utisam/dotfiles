@@ -1,0 +1,29 @@
+shell-integration = zsh
+theme = pro
+palette = 0=#000000
+palette = 1=#E01B24
+palette = 2=#33D17A
+palette = 3=#F6D32D
+palette = 4=#3584E4
+palette = 5=#9141AC
+palette = 6=#34AAAF
+palette = 7=#DEDDDA
+palette = 8=#929292
+palette = 9=#ED333B
+palette = 10=#57E389
+palette = 11=#F8E45C
+palette = 12=#62A0EA
+palette = 13=#C061CB
+palette = 14=#94D9CB
+palette = 15=#F6F5F4
+background-opacity = 0.75
+font-family = "HackGen Regular"
+font-feature = -calt
+font-feature = -dlig
+cursor-style = block
+shell-integration-features = no-cursor
+confirm-close-surface = false
+
+# https://github.com/ghostty-org/ghostty/discussions/8714
+keybind = super+shift+bracket_right=unbind
+keybind = super+shift+[=previous_tab
