@@ -38,6 +38,7 @@ CUSTOM_PATH=(
 	# Homebrew opts
 	"${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin"
 	"${HOMEBREW_PREFIX}/opt/gettext/bin"
+	"${HOMEBREW_PREFIX}/opt/git/libexec/git-core"
 	"${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin"
 	"${HOMEBREW_PREFIX}/opt/gnu-tar/libexec/gnubin"
 	"${HOMEBREW_PREFIX}/opt/grep/libexec/gnubin"
