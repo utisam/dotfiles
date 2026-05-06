@@ -1,3 +1,4 @@
+set encoding=utf-8
 scriptencoding utf-8
 
 " ターミナル接続を高速化
