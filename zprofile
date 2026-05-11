@@ -18,6 +18,16 @@ if [[ -d "/etc/alternatives/java_sdk" ]]; then
 	export JAVA_HOME="/etc/alternatives/java_sdk"
 fi
 
+#############
+## Android ##
+#############
+
+if [[ -d "/opt/android/sdk" ]]; then
+	export ANDROID_HOME="/opt/android/sdk"
+elif [[ -d "${HOME}/Library/Android/sdk" ]]; then
+	export ANDROID_HOME="${HOME}/Library/Android/sdk"
+fi
+
 #########
 ## Zsh ##
 #########
@@ -63,10 +73,18 @@ CUSTOM_PATH=(
 	"$HOME/Library/pnpm"
 	# Nordic
 	"$HOME/.nrfutil/bin"
+	"/Applications/Nordic Semiconductor/bin"
 	# Home
 	"$HOME/.local/bin"
 	"$HOME/bin"
 )
+if [[ -n "${ANDROID_HOME}" ]]; then
+	CUSTOM_PATH+=(
+		"$ANDROID_HOME/tools"
+		"$ANDROID_HOME/tools/bin"
+		"$ANDROID_HOME/platform-tools"
+	)
+fi
 # npm bin が特殊なディレクトリになっている場合は必要
 # type npm >/dev/null 2>&1 && CUSTOM_PATH+=$(npm bin -g 2>/dev/null)
 
