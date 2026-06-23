@@ -58,6 +58,7 @@ CUSTOM_PATH=(
 	"${HOMEBREW_PREFIX}/opt/postgresql@15/bin"
 	# Dart
 	"$HOME/.pub-cache/bin"
+	"$HOME/Library/Application Support/Dart/install/bin"
 	# Flutter
 	"/opt/flutter/bin"
 	"$HOME/fvm/default/bin"
