@@ -453,9 +453,15 @@ unsetopt promptcr
 setopt auto_list
 # 補完候補が複数ある時にすぐに最初の候補を補完する
 setopt menu_complete
-#コマンド修正提示
-#setopt correct		#通常
-setopt correct_all	#ファイル名まで考慮
+# コマンド修正提示
+# AI Agent 経由では干渉するので無効化
+if [[ -n "${AI_AGENT:-}" ]]; then
+	unsetopt correct
+	unsetopt correct_all
+else
+	#setopt correct		#通常
+	setopt correct_all	#ファイル名まで考慮
+fi
 # 末尾の / を消去しない
 setopt noautoremoveslash
 
