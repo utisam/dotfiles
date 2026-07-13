@@ -1,0 +1,64 @@
+#!/bin/zsh
+
+set -euo pipefail
+
+readonly COLOR_GREEN='\033[1;32m'
+readonly COLOR_RESET='\033[0m'
+
+usage() {
+    cat <<EOF
+Usage: git drop [OPTIONS]
+
+Hard reset the working tree to HEAD and remove untracked files. Deletion
+targets are read file-by-file from 'git status', so files ignored by
+.gitignore are never touched -- even inside an otherwise-untracked
+directory.
+
+Options:
+  --dry-run, -n    Preview what would be reset/removed without changing anything
+  -h, --help       Show this help message
+EOF
+}
+
+local dry_run=false
+
+while (( $# )); do
+    case "$1" in
+        --dry-run|-n)
+            dry_run=true
+            shift
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            echo "error: unknown option: $1" >&2
+            usage >&2
+            exit 1
+            ;;
+    esac
+done
+
+# List untracked (non-ignored) files one-by-one, NUL-separated.
+list_untracked() {
+    git status --porcelain --untracked-files=all -z |
+        while IFS= read -r -d '' entry; do
+            [[ "${entry:0:2}" == "??" ]] && printf '%s\0' "${entry:3}"
+        done
+}
+
+if [[ "$dry_run" == true ]]; then
+    echo "${COLOR_GREEN}Would reset (git reset --hard):${COLOR_RESET}"
+    git status --short
+    echo ""
+    echo "${COLOR_GREEN}Would remove untracked files:${COLOR_RESET}"
+    list_untracked | while IFS= read -r -d '' target_path; do
+        echo "  $target_path"
+    done
+else
+    git reset --hard
+    list_untracked | while IFS= read -r -d '' target_path; do
+        rm -rf -- "$target_path"
+    done
+fi
