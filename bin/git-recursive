@@ -69,5 +69,5 @@ fi
 for D in $(find -L $PWD \( -name vendor -o -name node_modules \) -prune -o -type d -name .git -print -prune); do
     cd "$(dirname "$D")"
     [[ "$silent" == false ]] && echo -e "\e[37;44;1m${PWD/${HOME}/~}\e[m"
-    "${command[@]}"
+    "${command[@]}" || true
 done
