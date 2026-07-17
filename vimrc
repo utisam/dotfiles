@@ -139,6 +139,11 @@ set incsearch
 " 整形 "
 """"""""
 
+" Vim 9 は editorconfig が同梱されている
+if v:version >= 900
+    packadd! editorconfig
+endif
+
 set formatoptions=tcqj
 " 新しい行を作ったときに高度な自動インデントを行う
 set smartindent
